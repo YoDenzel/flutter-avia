@@ -17,8 +17,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<AviaData?> futureAviaData;
-  final ScrollController _controller = ScrollController();
   int activeDateIndex = -1;
+  bool isExpanded = false;
 
   final dates = List<String>.generate(
       30,
@@ -64,6 +64,59 @@ class _HomePageState extends State<HomePage> {
                           });
                         },
                       ))),
+              FutureBuilder(
+                  future: futureAviaData,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<AviaData?> snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 65,
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        margin: const EdgeInsets.all(15),
+                        child: Row(
+                          children: [
+                            Container(
+                                height: 34,
+                                width: 34,
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(3)),
+                                child: Transform.rotate(
+                                    angle: 45 * 3.14 / 180,
+                                    child: const Icon(
+                                      Icons.airplanemode_active_sharp,
+                                      color: Colors.white,
+                                    ))),
+                            Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                child: const Text(
+                                  'Plane',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                            const Spacer(),
+                            Transform.rotate(
+                                angle: isExpanded
+                                    ? 90 * 3.14 / 180
+                                    : -90 * 3.14 / 180,
+                                child: IconButton(
+                                    onPressed: () => setState(() {
+                                          isExpanded = !isExpanded;
+                                        }),
+                                    icon: const Icon(Icons.chevron_right)))
+                          ],
+                        ),
+                      );
+                    } else {
+                      return const Text('Loading...');
+                    }
+                  })
             ],
           ),
         ));
