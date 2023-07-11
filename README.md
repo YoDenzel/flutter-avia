@@ -1,16 +1,14 @@
 # flutter_avia
 
-A new Flutter project.
+## Дока
 
-## Getting Started
+# To get started:
+flutter pub get;
+Делал под веб, поэтому прошу запускать там или через дебаг вскода.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Вот проектик, вышло чуть тяжелее, чем я думал, но вроде основной функционал реализовал.
+Не понял как сделать билеты с пересадкой, не нашел в ответе с сервера связки, поэтому вот.
+Не успел сделать доп.задачки.
+В общем, видно что делал все в первый раз.
+Надеюсь, вам понравится, если нет, то дайте пожалуйста обратную связь, что можно улучшить.
