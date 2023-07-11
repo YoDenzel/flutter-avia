@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter_avia/widgets/chips_list_widget.dart';
+import 'package:flutter_avia/widgets/flight_info_widget.dart';
+import 'package:flutter_avia/widgets/flight_ticket_widget.dart';
+import 'package:flutter_avia/widgets/plane_tickets_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_avia/models/avia_data.dart';
@@ -69,50 +72,29 @@ class _HomePageState extends State<HomePage> {
                   builder: (BuildContext context,
                       AsyncSnapshot<AviaData?> snapshot) {
                     if (snapshot.hasData) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10)),
-                        height: 65,
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        margin: const EdgeInsets.all(15),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 34,
-                                width: 34,
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(3)),
-                                child: Transform.rotate(
-                                    angle: 45 * 3.14 / 180,
-                                    child: const Icon(
-                                      Icons.airplanemode_active_sharp,
-                                      color: Colors.white,
-                                    ))),
-                            Container(
-                                margin: const EdgeInsets.only(left: 10),
-                                child: const Text(
-                                  'Plane',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )),
-                            const Spacer(),
-                            Transform.rotate(
-                                angle: isExpanded
-                                    ? 90 * 3.14 / 180
-                                    : -90 * 3.14 / 180,
-                                child: IconButton(
-                                    onPressed: () => setState(() {
-                                          isExpanded = !isExpanded;
-                                        }),
-                                    icon: const Icon(Icons.chevron_right)))
-                          ],
-                        ),
-                      );
+                      return Flexible(
+                          child: Column(
+                        children: [
+                          PlaneTicketsWidget(
+                              isExpanded: isExpanded,
+                              onClickAction: () => {
+                                    setState(() {
+                                      isExpanded = !isExpanded;
+                                    })
+                                  }),
+                          Visibility(
+                              visible: true,
+                              child: Flexible(
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          snapshot.data!.data?.segments?.length,
+                                      itemBuilder: (context, index) {
+                                        return FlightTicketWidget(
+                                            data: snapshot.data);
+                                      })))
+                        ],
+                      ));
                     } else {
                       return const Text('Loading...');
                     }
