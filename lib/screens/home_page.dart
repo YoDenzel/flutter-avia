@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter_avia/widgets/chips_list_widget.dart';
-import 'package:flutter_avia/widgets/flight_info_widget.dart';
 import 'package:flutter_avia/widgets/flight_ticket_widget.dart';
 import 'package:flutter_avia/widgets/plane_tickets_widget.dart';
 import 'package:intl/intl.dart';
@@ -83,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                                     })
                                   }),
                           Visibility(
-                              visible: true,
+                              visible: isExpanded,
                               child: Flexible(
                                   child: ListView.builder(
                                       shrinkWrap: true,
@@ -91,7 +90,8 @@ class _HomePageState extends State<HomePage> {
                                           snapshot.data!.data?.segments?.length,
                                       itemBuilder: (context, index) {
                                         return FlightTicketWidget(
-                                            data: snapshot.data);
+                                            data: snapshot
+                                                .data?.data?.segments?[index]);
                                       })))
                         ],
                       ));
