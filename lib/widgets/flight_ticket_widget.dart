@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_avia/models/avia_data.dart';
+import 'package:intl/intl.dart';
 
 import 'flight_info_widget.dart';
 
 class FlightTicketWidget extends StatelessWidget {
-  final AviaData? data;
+  final Segment? data;
 
   const FlightTicketWidget({super.key, required this.data});
+
+  String _durationToString(int minutes) {
+    if (minutes <= 0) return 'No info';
+    var d = Duration(minutes: minutes);
+    List<String> parts = d.toString().split(':');
+    return '${parts[0].padLeft(2, '0')}h ${parts[1].padLeft(2, '0')}m';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +75,9 @@ class FlightTicketWidget extends StatelessWidget {
                         color: Colors.red[400],
                         borderRadius: BorderRadius.circular(50)),
                     child: Center(
-                        child: data?.data?.segments?[6].thread?.carrier?.logo !=
-                                null
+                        child: data?.thread?.carrier?.logo != null
                             ? Image.network(
-                                data?.data?.segments?[0].thread?.carrier
-                                        ?.logo ??
-                                    '',
+                                data?.thread?.carrier?.logo ?? '',
                                 width: 50,
                                 height: 50,
                               )
@@ -92,14 +97,12 @@ class FlightTicketWidget extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           FlightInfoWidget(
-                              airport: data
-                                  ?.data!.segments?[0].thread?.carrier?.title,
-                              city: data
-                                  ?.data!.segments?[0].thread?.carrier?.title,
-                              date: data
-                                  ?.data!.segments?[0].thread?.carrier?.title,
-                              time: data
-                                  ?.data!.segments?[0].thread?.carrier?.title),
+                              airport: data?.from?.stationTypeName,
+                              city: data?.from?.title,
+                              date: DateFormat.yMMMMd('ru_RU').format(
+                                  DateTime.parse(data?.departure ?? '')),
+                              time: DateFormat.jm('ru_RU').format(
+                                  DateTime.parse(data?.departure ?? ''))),
                           Flexible(
                               child: Row(children: [
                             Container(
@@ -109,8 +112,8 @@ class FlightTicketWidget extends StatelessWidget {
                                   color: Colors.grey,
                                 )),
                             Text(
-                              data?.data?.segments?[0].thread?.carrier?.title ??
-                                  '',
+                              //duration
+                              _durationToString(data?.duration ?? 0),
                               style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -118,18 +121,16 @@ class FlightTicketWidget extends StatelessWidget {
                             )
                           ])),
                           FlightInfoWidget(
-                              airport: data
-                                  ?.data!.segments?[0].thread?.carrier?.title,
-                              city: data
-                                  ?.data!.segments?[0].thread?.carrier?.title,
-                              date: data
-                                  ?.data!.segments?[0].thread?.carrier?.title,
-                              time: data
-                                  ?.data!.segments?[0].thread?.carrier?.title),
+                              airport: data?.to?.stationTypeName,
+                              city: data?.to?.title,
+                              date: DateFormat.yMMMMd('ru_RU')
+                                  .format(DateTime.parse(data?.arrival ?? '')),
+                              time: DateFormat.jm('ru_RU')
+                                  .format(DateTime.parse(data?.arrival ?? ''))),
                           const Flexible(
                               child: Align(
                                   alignment: Alignment.center,
-                                  child: Text("S480")))
+                                  child: Text("\$480")))
                         ],
                       )
                     ],

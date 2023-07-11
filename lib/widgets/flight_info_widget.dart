@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class FlightInfoWidget extends StatelessWidget {
-  String? time;
-  String? date;
+  dynamic time;
+  dynamic date;
   String? city;
   String? airport;
 
-  FlightInfoWidget({Key? key, this.airport, this.city, this.date, this.time})
+  FlightInfoWidget(
+      {Key? key, this.airport, this.city, this.date, required this.time})
       : super(key: key);
 
   @override
@@ -19,7 +20,7 @@ class FlightInfoWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(time ?? 'No info',
+                Text(time.toString(),
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontSize: 24,
